@@ -1,6 +1,6 @@
-import { Geist } from "next/font/google";
-import { ToastProvider } from "@/components/ui/Toast";
 import ServiceWorkerRegistrar from "@/components/pwa/ServiceWorkerRegistrar";
+import { ToastProvider } from "@/components/ui/Toast";
+import { Geist } from "next/font/google";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -9,13 +9,13 @@ const geistSans = Geist({
 });
 
 export const metadata = {
-  title: "LinkNest",
+  title: "Smart-Bookmark",
   description: "Save, organize, and AI-categorize your bookmarks",
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
-    title: "LinkNest",
+    title: "Smart-Bookmark",
   },
   other: {
     "mobile-web-app-capable": "yes",

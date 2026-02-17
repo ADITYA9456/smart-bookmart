@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { auth, storage } from "../../lib/adapters/extension/index.js";
-import { CATEGORY_COLORS } from "../../lib/core/categories.js";
 import { getFaviconUrl } from "../../lib/core/url.js";
 
 export default function Popup() {
@@ -141,7 +140,7 @@ export default function Popup() {
       <div className="popup-container">
         <div className="header">
           <span className="logo">🔖</span>
-          <h1>LinkNest</h1>
+          <h1>Smart-Bookmark</h1>
         </div>
         <p className="subtitle">Sign in to save bookmarks</p>
         <button className="btn-primary" onClick={handleSignIn}>
@@ -164,7 +163,7 @@ export default function Popup() {
       <div className="header">
         <div className="header-left">
           <span className="logo">🔖</span>
-          <h1>LinkNest</h1>
+          <h1>Smart-Bookmark</h1>
         </div>
         <div className="header-right">
           {user.user_metadata?.avatar_url && (

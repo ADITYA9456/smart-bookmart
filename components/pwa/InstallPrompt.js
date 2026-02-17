@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 /**
  * PWA Install Prompt — shows a banner when the browser fires
@@ -66,7 +66,7 @@ export default function InstallPrompt() {
         <span className="text-2xl">🔖</span>
         <div className="flex-1 min-w-0">
           <p className="text-sm font-semibold text-zinc-100">
-            Install LinkNest
+            Install Smart-Bookmark
           </p>
           <p className="text-xs text-zinc-500 mt-0.5">
             Add to home screen for quick access

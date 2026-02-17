@@ -1,4 +1,4 @@
-# LinkNest — Project Documentation
+# Smart-Bookmark — Project Documentation
 
 A modern bookmark manager with **AI-powered categorization**, available as a **Progressive Web App (PWA)** and a **Chrome Extension (Manifest V3)**, sharing a single codebase through a modular adapter architecture.
 
@@ -61,7 +61,7 @@ A modern bookmark manager with **AI-powered categorization**, available as a **P
 
 ### Import & Export
 
-- **Export** — downloads all bookmarks (or selected) as a timestamped JSON file (`linknest-bookmarks-YYYY-MM-DD.json`) with metadata header (`app`, `exportedAt`, `count`)
+- **Export** — downloads all bookmarks (or selected) as a timestamped JSON file (`Smart-Bookmark-bookmarks-YYYY-MM-DD.json`) with metadata header (`app`, `exportedAt`, `count`)
 - **Import** — upload a JSON file; supports both `{ bookmarks: [...] }` wrapper format and plain array; validates URLs; deduplicates against existing bookmarks by URL
 
 ### Real-time Sync
@@ -90,7 +90,7 @@ A modern bookmark manager with **AI-powered categorization**, available as a **P
   - Save the current tab as a bookmark with AI categorization
   - View the 5 most recent bookmarks
   - Link to the full web dashboard
-- **Context menu** — right-click any page → "Save to LinkNest" stores the page as a pending bookmark
+- **Context menu** — right-click any page → "Save to Smart-Bookmark" stores the page as a pending bookmark
 - **Options page** — a full dashboard with search, sort, category filters, export, real-time subscription, favorites, and delete — all using shared core logic
 - **Background service worker**:
   - Handles OAuth flow via `chrome.identity.launchWebAuthFlow()` (doesn't close with the popup)
@@ -113,7 +113,7 @@ A modern bookmark manager with **AI-powered categorization**, available as a **P
 ## Folder Structure
 
 ```
-LinkNest/
+Smart-Bookmark/
 ├── app/                              # Next.js App Router
 │   ├── globals.css                   # Tailwind v4 imports, CSS variables, theme
 │   ├── layout.js                     # Root layout — Geist font, metadata, PWA meta, ToastProvider
@@ -401,7 +401,7 @@ bookmarks (
 | `chrome.identity.launchWebAuthFlow()`  | OAuth flow in background service worker            |
 | `chrome.identity.getRedirectURL()`     | Gets the extension's OAuth redirect URL            |
 | `chrome.storage.local`                 | Session persistence, pending bookmark storage      |
-| `chrome.contextMenus`                  | "Save to LinkNest" right-click menu item           |
+| `chrome.contextMenus`                  | "Save to Smart-Bookmark" right-click menu item           |
 | `chrome.action`                        | Badge text/color for save notifications            |
 | `chrome.alarms`                        | 30-minute session refresh timer                    |
 | `chrome.runtime.sendMessage/onMessage` | Communication between popup ↔ background ↔ content |

@@ -1,4 +1,4 @@
-# LinkNest
+# Smart-Bookmark
 
 A modern bookmark manager with AI-powered categorization, built as both a **Progressive Web App** and a **Chrome Extension** sharing a single codebase.
 

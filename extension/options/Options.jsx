@@ -1,14 +1,13 @@
-import React, { useState, useEffect, useCallback, useMemo, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { auth, storage } from "../../lib/adapters/extension/index.js";
-import { CATEGORY_COLORS } from "../../lib/core/categories.js";
-import { getFaviconUrl } from "../../lib/core/url.js";
 import {
-  filterBookmarks,
-  sortBookmarks,
-  computeCategories,
-  computeTags,
+    computeCategories,
+    computeTags,
+    filterBookmarks,
+    sortBookmarks,
 } from "../../lib/core/bookmarks.js";
-import { exportBookmarks, parseImportFile } from "../../lib/core/importExport.js";
+import { exportBookmarks } from "../../lib/core/importExport.js";
+import { getFaviconUrl } from "../../lib/core/url.js";
 
 /**
  * Full dashboard view for the extension options page.
@@ -111,7 +110,7 @@ export default function Options() {
     return (
       <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", minHeight: "100vh", background: "#050505", gap: 16 }}>
         <span style={{ fontSize: 48 }}>🔖</span>
-        <h1 style={{ color: "#e4e4e7", fontSize: 24, fontWeight: 700 }}>LinkNest</h1>
+        <h1 style={{ color: "#e4e4e7", fontSize: 24, fontWeight: 700 }}>Smart-Bookmark</h1>
         <p style={{ color: "#71717a", fontSize: 14 }}>Sign in to manage your bookmarks</p>
         <button className="btn-primary" onClick={handleSignIn} style={{ maxWidth: 260 }}>
           Sign in with Google
@@ -126,7 +125,7 @@ export default function Options() {
       <div className="header" style={{ marginBottom: 24 }}>
         <div className="header-left">
           <span className="logo" style={{ fontSize: 24 }}>🔖</span>
-          <h1 style={{ fontSize: 20 }}>LinkNest</h1>
+          <h1 style={{ fontSize: 20 }}>Smart-Bookmark</h1>
         </div>
         <div className="header-right">
           <span style={{ color: "#71717a", fontSize: 12 }}>
