@@ -1,4 +1,5 @@
 {
+  "id": "/",
   "name": "Smart Bookmark",
   "short_name": "Bookmark",
   "description": "Save and manage your favorite links in one place.",
@@ -9,6 +10,7 @@
   "theme_color": "#7c3aed",
   "orientation": "portrait-primary",
   "prefer_related_applications": false,
+  "categories": ["utilities", "productivity"],
   "icons": [
     {
       "src": "/icons/icon-192.png",

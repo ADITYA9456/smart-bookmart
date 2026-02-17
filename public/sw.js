@@ -1,11 +1,11 @@
-const CACHE_NAME = "smart-bookmark-v2";
+const CACHE_NAME = "smart-bookmark-v3";
 
-// Install — activate immediately, no pre-caching dynamic routes
+// Install — activate immediately
 self.addEventListener("install", () => {
   self.skipWaiting();
 });
 
-// Activate — clean old caches
+// Activate — clean old caches and take control
 self.addEventListener("activate", (e) => {
   e.waitUntil(
     caches.keys().then((keys) =>
@@ -15,29 +15,34 @@ self.addEventListener("activate", (e) => {
   self.clients.claim();
 });
 
-// Fetch — network first, fallback to cache (only cache static assets)
+// Fetch — network first for everything, cache static assets
 self.addEventListener("fetch", (e) => {
-  if (e.request.method !== "GET") return;
-  if (e.request.url.startsWith("chrome-extension://")) return;
+  const { request } = e;
 
-  // Only cache static assets (js, css, images, fonts), not HTML/API routes
-  const url = new URL(e.request.url);
-  const isStatic = /\.(js|css|png|jpg|jpeg|svg|gif|webp|woff2?|ttf|ico)$/i.test(url.pathname)
-    || url.pathname.startsWith("/_next/static");
+  // Skip non-GET, chrome-extension, and Supabase auth requests
+  if (request.method !== "GET") return;
+  if (request.url.startsWith("chrome-extension://")) return;
+  if (request.url.includes("supabase")) return;
 
-  if (isStatic) {
-    e.respondWith(
-      caches.match(e.request).then((cached) =>
-        cached || fetch(e.request).then((res) => {
-          if (res.status === 200) {
-            const clone = res.clone();
-            caches.open(CACHE_NAME).then((cache) => {
-              try { cache.put(e.request, clone); } catch {}
-            });
-          }
-          return res;
-        })
-      )
-    );
-  }
+  e.respondWith(
+    fetch(request)
+      .then((response) => {
+        // Cache static assets only
+        const url = new URL(request.url);
+        const isStatic =
+          /\.(js|css|png|jpg|jpeg|svg|gif|webp|woff2?|ttf|ico)$/i.test(url.pathname) ||
+          url.pathname.startsWith("/_next/static");
+
+        if (response.status === 200 && isStatic) {
+          const clone = response.clone();
+          caches.open(CACHE_NAME).then((cache) => {
+            try {
+              cache.put(request, clone);
+            } catch {}
+          });
+        }
+        return response;
+      })
+      .catch(() => caches.match(request))
+  );
 });
