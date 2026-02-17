@@ -1,12 +1,10 @@
 /// <reference lib="webworker" />
 
-const CACHE_NAME = "Smart-Bookmark-v1";
+const CACHE_NAME = "Smart-Bookmark-v2";
 
 // Assets to pre-cache for offline shell
+// Don't pre-cache HTML pages — they need fresh server responses (auth cookies)
 const PRECACHE_ASSETS = [
-  "/",
-  "/dashboard",
-  "/login",
   "/manifest.json",
 ];
 
@@ -63,7 +61,29 @@ self.addEventListener("fetch", (event) => {
   // Auth callbacks — network only
   if (url.pathname.startsWith("/auth/")) return;
 
-  // Static assets & pages — stale-while-revalidate
+  // Navigation requests (HTML pages) — network first, fallback to cache
+  // This ensures auth cookies & middleware run on every page load
+  if (request.mode === "navigate") {
+    event.respondWith(
+      fetch(request)
+        .then((networkResponse) => {
+          if (networkResponse.ok) {
+            caches.open(CACHE_NAME).then((cache) =>
+              cache.put(request, networkResponse.clone())
+            );
+          }
+          return networkResponse;
+        })
+        .catch(() =>
+          caches.match(request).then((cached) =>
+            cached || caches.match("/login")
+          )
+        )
+    );
+    return;
+  }
+
+  // Static assets — stale-while-revalidate
   event.respondWith(
     caches.open(CACHE_NAME).then(async (cache) => {
       const cachedResponse = await cache.match(request);
