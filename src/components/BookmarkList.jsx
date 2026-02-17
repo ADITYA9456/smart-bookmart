@@ -135,11 +135,11 @@ export default function BookmarkList({ bookmarks, loading, onDelete, onFavorite,
                  className="text-violet-400/50 text-xs truncate hover:text-violet-300
                             flex items-center gap-1 mt-1 max-w-full transition-colors">
                 <span className="truncate">{bm.url}</span>
-                <ExternalLink className="w-3 h-3 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" />
+                <ExternalLink className="w-3 h-3 shrink-0 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity" />
               </a>
             </div>
 
-            <div className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
+            <div className="flex items-center gap-0.5 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity shrink-0">
               <button
                 onClick={() => onEdit(bm)}
                 className="p-2 text-gray-600 hover:text-violet-400 rounded-lg hover:bg-violet-500/8
