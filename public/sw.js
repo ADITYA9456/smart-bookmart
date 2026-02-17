@@ -1,12 +1,7 @@
-const CACHE_NAME = "smart-bookmark-v1";
+const CACHE_NAME = "smart-bookmark-v2";
 
-// Install — cache shell assets
-self.addEventListener("install", (e) => {
-  e.waitUntil(
-    caches.open(CACHE_NAME).then((cache) =>
-      cache.addAll(["/", "/login"])
-    )
-  );
+// Install — activate immediately, no pre-caching dynamic routes
+self.addEventListener("install", () => {
   self.skipWaiting();
 });
 
@@ -20,24 +15,29 @@ self.addEventListener("activate", (e) => {
   self.clients.claim();
 });
 
-// Fetch — network first, fallback to cache
+// Fetch — network first, fallback to cache (only cache static assets)
 self.addEventListener("fetch", (e) => {
   if (e.request.method !== "GET") return;
   if (e.request.url.startsWith("chrome-extension://")) return;
 
-  e.respondWith(
-    fetch(e.request)
-      .then((res) => {
-        if (res.status === 200) {
-          const clone = res.clone();
-          caches.open(CACHE_NAME).then((cache) => {
-            try {
-              cache.put(e.request, clone);
-            } catch {}
-          });
-        }
-        return res;
-      })
-      .catch(() => caches.match(e.request))
-  );
+  // Only cache static assets (js, css, images, fonts), not HTML/API routes
+  const url = new URL(e.request.url);
+  const isStatic = /\.(js|css|png|jpg|jpeg|svg|gif|webp|woff2?|ttf|ico)$/i.test(url.pathname)
+    || url.pathname.startsWith("/_next/static");
+
+  if (isStatic) {
+    e.respondWith(
+      caches.match(e.request).then((cached) =>
+        cached || fetch(e.request).then((res) => {
+          if (res.status === 200) {
+            const clone = res.clone();
+            caches.open(CACHE_NAME).then((cache) => {
+              try { cache.put(e.request, clone); } catch {}
+            });
+          }
+          return res;
+        })
+      )
+    );
+  }
 });

@@ -1,3 +1,4 @@
+import InstallPrompt from "@/components/InstallPrompt";
 import { DM_Sans } from "next/font/google";
 import "./globals.css";
 
@@ -30,6 +31,7 @@ export default function RootLayout({ children }) {
       </head>
       <body className={`${dmSans.className} antialiased`}>
         {children}
+        <InstallPrompt />
         <script
           dangerouslySetInnerHTML={{
             __html: `
